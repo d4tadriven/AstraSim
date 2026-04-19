@@ -14,6 +14,7 @@ PYBIND11_MODULE(core, m) {
         .def(py::init<>())
         .def_readwrite("position", &astrasim::physics::State::position)
         .def_readwrite("velocity", &astrasim::physics::State::velocity)
+        .def_readwrite("orientation", &astrasim::physics::State::orientation)
         .def_readwrite("angular_velocity", &astrasim::physics::State::angular_velocity);
 
     // Bind RigidBody

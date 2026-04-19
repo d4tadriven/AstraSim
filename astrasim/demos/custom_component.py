@@ -43,15 +43,18 @@ def run_simulation(export_format=None):
     dt = 0.1
     time_steps = int(100.0 / dt)
     
-    xs, ys, zs = [], [], []
+    states_data = []
     
     for t in range(time_steps):
         state = vehicle.state
         altitude = state.position[2]
         
-        xs.append(state.position[0])
-        ys.append(state.position[1])
-        zs.append(altitude)
+        # Save telemetry data
+        states_data.append({
+            'pos': np.copy(state.position),
+            'vel': np.copy(state.velocity),
+            'quat': np.array([state.orientation.x, state.orientation.y, state.orientation.z, state.orientation.w])
+        })
         
         gravity = Environment.get_gravity(altitude)
         density = Environment.get_air_density(altitude)
@@ -74,7 +77,7 @@ def run_simulation(export_format=None):
     if export_format:
         save_path = f"custom_component.{export_format}"
         
-    viewer.show(xs, ys, zs, dt=dt, save_path=save_path)
+    viewer.show(states_data, dt=dt, save_path=save_path)
     
     if save_path:
         console.print(f"[bold green]Saved animation to {save_path}[/bold green]")

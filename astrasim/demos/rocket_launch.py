@@ -30,16 +30,18 @@ def run_simulation(export_format=None):
     dt = 0.05
     time_steps = int(200.0 / dt) # 200 seconds of flight
     
-    xs, ys, zs = [], [], []
+    states_data = []
     
     for t in range(time_steps):
         state = rocket.state
         altitude = max(0.0, state.position[2])
         
-        # Save trajectory
-        xs.append(state.position[0])
-        ys.append(state.position[1])
-        zs.append(altitude)
+        # Save telemetry data
+        states_data.append({
+            'pos': np.copy(state.position),
+            'vel': np.copy(state.velocity),
+            'quat': np.array([state.orientation.x, state.orientation.y, state.orientation.z, state.orientation.w])
+        })
         
         # Environment
         gravity = Environment.get_gravity(altitude)
@@ -73,14 +75,14 @@ def run_simulation(export_format=None):
         if state.position[2] < 0 and state.velocity[2] < 0:
             break
             
-    console.print(f"[bold cyan]Simulation finished. Apogee: {max(zs):.1f} meters. Rendering...[/bold cyan]")
+    console.print(f"[bold cyan]Simulation finished. Apogee: {max(s['pos'][2] for s in states_data):.1f} meters. Rendering...[/bold cyan]")
     
     viewer = TrajectoryViewer(title="Rocket Launch & Gravity Turn")
     save_path = None
     if export_format:
         save_path = f"rocket_launch.{export_format}"
         
-    viewer.show(xs, ys, zs, dt=dt, save_path=save_path)
+    viewer.show(states_data, dt=dt, save_path=save_path)
     
     if save_path:
         console.print(f"[bold green]Saved animation to {save_path}[/bold green]")
