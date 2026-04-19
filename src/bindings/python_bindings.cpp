@@ -30,8 +30,9 @@ PYBIND11_MODULE(core, m) {
              "Advance the simulation by dt seconds")
         .def_property("mass", &astrasim::physics::RigidBody::get_mass, &astrasim::physics::RigidBody::set_mass,
              "Get or set the mass of the rigid body (for fuel depletion)")
-        .def_property_readonly("state", &astrasim::physics::RigidBody::get_state,
-             "Get the current 6-DOF state");
+        .def_property("state", &astrasim::physics::RigidBody::get_mutable_state, [](astrasim::physics::RigidBody& self, const astrasim::physics::State& s) { self.get_mutable_state() = s; },
+             py::return_value_policy::reference_internal,
+             "Get or set the current 6-DOF state");
 
     // Bind Environment
     py::class_<astrasim::physics::Environment>(m, "Environment")
