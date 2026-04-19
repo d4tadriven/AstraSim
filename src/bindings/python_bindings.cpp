@@ -4,7 +4,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(astrasim, m) {
+PYBIND11_MODULE(core, m) {
     m.doc() = "AstraSim: Real-time interactive aerospace simulation platform";
 
     // Bind State

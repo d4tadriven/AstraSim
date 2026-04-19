@@ -54,5 +54,6 @@ target_link_libraries(astrasim_tests PRIVATE astrasim_core Catch2::Catch2WithMai
 add_test(NAME AstraSimTests COMMAND astrasim_tests)
 
 # Python bindings module
-pybind11_add_module(astrasim src/bindings/python_bindings.cpp)
-target_link_libraries(astrasim PRIVATE astrasim_core)
+pybind11_add_module(core src/bindings/python_bindings.cpp)
+target_link_libraries(core PRIVATE astrasim_core)
+install(TARGETS core DESTINATION astrasim)

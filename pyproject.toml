@@ -1,0 +1,23 @@
+[build-system]
+requires = ["scikit-build-core", "pybind11>=2.11.1"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "astrasim"
+version = "0.1.0"
+description = "AstraSim: Real-time interactive aerospace simulation platform"
+readme = "README.md"
+dependencies = [
+    "rich>=13.0.0",
+    "typer>=0.9.0",
+    "numpy",
+    "matplotlib"
+]
+requires-python = ">=3.8"
+
+[project.scripts]
+astrasim = "astrasim.cli:app"
+
+[tool.scikit-build]
+cmake.version = ">=3.14"
+ninja.version = ">=1.5"
