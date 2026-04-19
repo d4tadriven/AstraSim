@@ -1,3 +1,3 @@
-from .core import State, RigidBody
+from .core import State, RigidBody, Environment, Aerodynamics
 
-__all__ = ["State", "RigidBody"]
+__all__ = ["State", "RigidBody", "Environment", "Aerodynamics"]

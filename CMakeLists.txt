@@ -38,6 +38,8 @@ FetchContent_MakeAvailable(pybind11)
 # Core Library
 add_library(astrasim_core
     src/physics/rigid_body.cpp
+    src/physics/environment.cpp
+    src/physics/aerodynamics.cpp
 )
 target_include_directories(astrasim_core PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

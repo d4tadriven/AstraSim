@@ -1,6 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/eigen.h>
 #include "astrasim/physics/rigid_body.hpp"
+#include "astrasim/physics/environment.hpp"
+#include "astrasim/physics/aerodynamics.hpp"
 
 namespace py = pybind11;
 
@@ -28,4 +30,16 @@ PYBIND11_MODULE(core, m) {
              "Advance the simulation by dt seconds")
         .def_property_readonly("state", &astrasim::physics::RigidBody::get_state,
              "Get the current 6-DOF state");
+
+    // Bind Environment
+    py::class_<astrasim::physics::Environment>(m, "Environment")
+        .def_static("get_gravity", &astrasim::physics::Environment::get_gravity, py::arg("altitude"), "Get gravity vector at altitude")
+        .def_static("get_air_density", &astrasim::physics::Environment::get_air_density, py::arg("altitude"), "Get air density at altitude");
+
+    // Bind Aerodynamics
+    py::class_<astrasim::physics::Aerodynamics>(m, "Aerodynamics")
+        .def_static("calculate_drag", &astrasim::physics::Aerodynamics::calculate_drag, 
+                    py::arg("velocity"), py::arg("density"), py::arg("area"), py::arg("cd"))
+        .def_static("calculate_lift", &astrasim::physics::Aerodynamics::calculate_lift, 
+                    py::arg("velocity"), py::arg("up_vector"), py::arg("density"), py::arg("area"), py::arg("cl"));
 }
