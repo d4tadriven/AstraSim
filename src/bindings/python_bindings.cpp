@@ -9,6 +9,14 @@ namespace py = pybind11;
 PYBIND11_MODULE(core, m) {
     m.doc() = "AstraSim: Real-time interactive aerospace simulation platform";
 
+    // Bind Quaternion for orientation
+    py::class_<Eigen::Quaterniond>(m, "Quaternion")
+        .def(py::init<double, double, double, double>(), py::arg("w"), py::arg("x"), py::arg("y"), py::arg("z"))
+        .def_property("w", [](const Eigen::Quaterniond& q) { return q.w(); }, [](Eigen::Quaterniond& q, double v) { q.w() = v; })
+        .def_property("x", [](const Eigen::Quaterniond& q) { return q.x(); }, [](Eigen::Quaterniond& q, double v) { q.x() = v; })
+        .def_property("y", [](const Eigen::Quaterniond& q) { return q.y(); }, [](Eigen::Quaterniond& q, double v) { q.y() = v; })
+        .def_property("z", [](const Eigen::Quaterniond& q) { return q.z(); }, [](Eigen::Quaterniond& q, double v) { q.z() = v; });
+
     // Bind State
     py::class_<astrasim::physics::State>(m, "State")
         .def(py::init<>())
