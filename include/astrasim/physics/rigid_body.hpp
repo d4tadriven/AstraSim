@@ -27,6 +27,9 @@ public:
     void update(double dt);
 
     const State& get_state() const { return state_; }
+    
+    void set_mass(double mass) { mass_ = mass; }
+    double get_mass() const { return mass_; }
 
 private:
     double mass_;

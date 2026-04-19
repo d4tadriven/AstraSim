@@ -28,6 +28,8 @@ PYBIND11_MODULE(core, m) {
         .def("update", &astrasim::physics::RigidBody::update, 
              py::arg("dt"),
              "Advance the simulation by dt seconds")
+        .def_property("mass", &astrasim::physics::RigidBody::get_mass, &astrasim::physics::RigidBody::set_mass,
+             "Get or set the mass of the rigid body (for fuel depletion)")
         .def_property_readonly("state", &astrasim::physics::RigidBody::get_state,
              "Get the current 6-DOF state");
 
